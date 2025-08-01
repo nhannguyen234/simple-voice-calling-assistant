@@ -6,7 +6,9 @@ RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
     && pip install psycopg2 \
     && apt-get install -y libgl1-mesa-glx libglib2.0-0 \
-    && apt-get clean
+    && apt-get clean \
+    && apt-get install ffmpeg \
+    && apt-get install python3-pyaudio
 
 COPY ./requirements.txt /code/requirements.txt
 
