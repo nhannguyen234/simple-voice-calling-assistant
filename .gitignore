@@ -213,3 +213,4 @@ test.ipynb_checkpoints
 # recording foldes
 /audio_files
 output.wav
+*.csv
