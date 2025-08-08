@@ -64,4 +64,4 @@ def custom_logger(app_name="APP"):
     logger_r.addHandler(ch)
     return logger_r
 
-logger = custom_logger(app_name="Synergies Global Simple App")
+logger = custom_logger(app_name="Simple English Voice App")

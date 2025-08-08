@@ -1,5 +1,5 @@
 # Project Overview
-This is the simple project for virtual assistant developed from scracth using OpenAI for text conversation and ElevenLabs for TTS and STT.
+This is the simple project for virtual assistant developed from scratch using OpenAI for text conversation and ElevenLabs for TTS and STT.
 # Prerequisites: 
 python>=3.11
 # Instruction and Information:
