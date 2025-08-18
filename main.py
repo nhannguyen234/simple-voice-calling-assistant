@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from src.ai_agents.voice_text_flows import local_voice_call
 
-app = FastAPI(title="Synergies Global Agent", version="1.0.0")
+app = FastAPI(title="Simple Voice Agent", version="1.0.0")
 
 @app.post("/api/calling_assistant")
 async def calling_assistant(call_id: str = str(uuid4())):
