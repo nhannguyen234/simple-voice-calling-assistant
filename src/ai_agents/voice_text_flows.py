@@ -3,6 +3,7 @@ import pyaudio
 import wave
 import audioop
 import time
+import threading
 from uuid import uuid4
 from io import BytesIO
 from collections import defaultdict
@@ -21,6 +22,17 @@ from src.utils.utils import handle_errors
 
 state = defaultdict(dict)
 human_voice_data_frames = defaultdict(list)
+stop_flag = False
+
+def listen_for_stop():
+    global stop_flag
+    while True:
+        user_input = input("Type 'stop' when you want to stop immediately: ")
+        if user_input.lower() == "stop":
+            stop_flag = True
+            print("Stop detected!")
+
+threading.Thread(target=listen_for_stop, daemon=True).start()
 
 @handle_errors()
 async def voice_box_processing(
@@ -72,7 +84,7 @@ async def local_voice_call(
     if has_ringtone:
         logger.info("Calling...")
         start_time = time.time()
-        while time.time() - start_time < 5:
+        while time.time() - start_time < 2:
             play_ringtone()
     
     format = pyaudio.paInt16
@@ -113,6 +125,7 @@ async def local_voice_call(
         # Process assistant response
         if silent_chunks * chunk / rate >= silence_time_seconds and state[call_id].get("role") == 'human':
             human_pcm = write_audio_to_wav(bytes_data_list=human_voice_data_frames[call_id])
+            print(1)
             conversation_pcm+=human_pcm.getvalue()
             # Assign the state flag
             state[call_id]["role"] = "ai"
@@ -132,8 +145,8 @@ async def local_voice_call(
             silent_chunks = 0
             logger.info("Process assistant response finished")
 
-        stop_trigger = input("Type 'stop' when you want to stop immediately: ")
-        if stop_trigger.lower() == "stop":
+        if stop_flag:
+            logger.info("The call has been stopped")
             break
         # Check if we've been silent long enough
         if silent_chunks * chunk / rate >= idle_time_seconds and state[call_id].get("role")=='ai':
