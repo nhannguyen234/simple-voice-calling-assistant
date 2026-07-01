@@ -65,16 +65,16 @@ async def voice_box_processing(
 
 @handle_errors()
 async def local_voice_call(
-        call_id: str = str(uuid4()),
-        first_message: str = "Thank you for calling Jacobs Plumbing. How can I assist you today?",
-        has_ringtone: bool = True,
-        audio_saved_folder: str = settings.AUDIO_OUTPUT_PATH,
-        chunk = settings.HUMAN_PYAUDIO_CHUNK,
-        rate = settings.HUMAN_PYAUDIO_RATE,
-        silence_threshold = settings.HUMAN_PYAUDIO_SILENCE_THRESHOLD,
-        silence_time_seconds = settings.HUMAN_PYAUDIO_SILENCE_TIME_SECONDS,
-        idle_time_seconds = settings.HUMAN_PYAUDIO_IDLE_TIME_SECONDS,
-        channels = settings.HUMAN_PYAUDIO_CHANNELS,
+    call_id: str = str(uuid4()),
+    first_message: str = "Thank you for calling Jacobs Plumbing. How can I assist you today?",
+    has_ringtone: bool = True,
+    audio_saved_folder: str = settings.AUDIO_OUTPUT_PATH,
+    chunk = settings.HUMAN_PYAUDIO_CHUNK,
+    rate = settings.HUMAN_PYAUDIO_RATE,
+    silence_threshold = settings.HUMAN_PYAUDIO_SILENCE_THRESHOLD,
+    silence_time_seconds = settings.HUMAN_PYAUDIO_SILENCE_TIME_SECONDS,
+    idle_time_seconds = settings.HUMAN_PYAUDIO_IDLE_TIME_SECONDS,
+    channels = settings.HUMAN_PYAUDIO_CHANNELS,
 ):
     """This function is to test voice call locally"""
     # Ringtone in 5 seconds

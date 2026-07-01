@@ -1,3 +1,4 @@
+import tomllib
 import uvicorn
 import asyncio
 from uuid import uuid4
@@ -5,7 +6,10 @@ from fastapi import FastAPI
 
 from src.ai_agents.voice_text_flows import local_voice_call
 
-app = FastAPI(title="Simple Voice Agent", version="1.0.0")
+with open("pyproject.toml", "rb") as _f:
+    _version = tomllib.load(_f)["project"]["version"]
+
+app = FastAPI(title="Simple Voice Agent", version=_version)
 
 @app.post("/api/calling_assistant")
 async def calling_assistant(call_id: str = str(uuid4())):
@@ -14,7 +18,7 @@ async def calling_assistant(call_id: str = str(uuid4())):
     )
 
 async def main():
-    config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level='info', reload=True)
+    config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level='info')
     server = uvicorn.Server(config)
     await asyncio.gather(
         server.serve()

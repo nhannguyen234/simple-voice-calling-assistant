@@ -1,21 +1,24 @@
-FROM python:3.11.11-bulleye
+FROM python:3.11-slim-bullseye
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /code
 
-RUN apt-get update \ 
-    && apt-get -y install libpq-dev gcc \
-    && pip install psycopg2 \
-    && apt-get install -y libgl1-mesa-glx libglib2.0-0 \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libpq-dev \
+        gcc \
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        ffmpeg \
+        portaudio19-dev \
     && apt-get clean \
-    && apt-get install ffmpeg \
-    && apt-get install python3-pyaudio
+    && rm -rf /var/lib/apt/lists/*
 
-COPY ./requirements.txt /code/requirements.txt
-
-RUN pip install --upgrade pip \
-    && pip install -r ./requirements.txt
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . /code/
-ENV PYTHONPATH "${PYTHONPATH}:/code/"
+ENV PYTHONPATH="${PYTHONPATH}:/code/"
 
-CMD ["python", "main.py"]
+CMD ["uv", "run", "python", "main.py"]
